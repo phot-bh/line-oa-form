@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ลงทะเบียนรับคำปรึกษา | Jay Capital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <main class="container">
+    <!-- Form view -->
+    <section id="form-view">
+      <header class="hero">
+        <div class="logo">JC</div>
+        <h1>ลงทะเบียนรับคำปรึกษา</h1>
+        <p class="sub">Jay Capital — ที่ปรึกษาทางการเงิน (FA)<br/>IPO · M&amp;A · Refinance · Restructuring</p>
+      </header>
+
+      <form id="lead-form" novalidate>
+        <div class="field">
+          <label for="name">ชื่อ–นามสกุล <span class="req">*</span></label>
+          <input type="text" id="name" name="name" required autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <label for="phone">เบอร์โทร <span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" required autocomplete="tel"
+                 inputmode="numeric" placeholder="0812345678" pattern="^0[0-9]{8,9}$" />
+          <small class="hint">เบอร์มือถือไทย 10 หลัก ขึ้นต้นด้วย 0</small>
+        </div>
+
+        <div class="field">
+          <label for="email">อีเมล <span class="req">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email"
+                 placeholder="you@example.com" />
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="company">บริษัท <span class="req">*</span></label>
+            <input type="text" id="company" name="company" required autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="position">ตำแหน่ง <span class="req">*</span></label>
+            <input type="text" id="position" name="position" required autocomplete="organization-title" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>วัตถุประสงค์ที่สนใจ <span class="req">*</span></label>
+          <div class="radio-group" role="radiogroup">
+            <label class="radio"><input type="radio" name="purpose" value="IPO" required /><span>IPO</span></label>
+            <label class="radio"><input type="radio" name="purpose" value="M&A" /><span>M&amp;A</span></label>
+            <label class="radio"><input type="radio" name="purpose" value="Refinance" /><span>Refinance</span></label>
+            <label class="radio"><input type="radio" name="purpose" value="Restructuring" /><span>Restructuring</span></label>
+            <label class="radio"><input type="radio" name="purpose" value="อื่นๆ" /><span>อื่นๆ</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="revenueRange">ช่วงรายได้ปีล่าสุด <span class="req">*</span></label>
+          <select id="revenueRange" name="revenueRange" required>
+            <option value="">— เลือก —</option>
+            <option value="<100">น้อยกว่า 100 ล้านบาท</option>
+            <option value="100-500">100 – 500 ล้านบาท</option>
+            <option value="500-1000">500 – 1,000 ล้านบาท</option>
+            <option value="1000+">มากกว่า 1,000 ล้านบาท</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="profitRange">ช่วงกำไรปีล่าสุด <span class="req">*</span></label>
+          <select id="profitRange" name="profitRange" required>
+            <option value="">— เลือก —</option>
+            <option value="loss">ขาดทุน</option>
+            <option value="<10">น้อยกว่า 10 ล้านบาท</option>
+            <option value="10-50">10 – 50 ล้านบาท</option>
+            <option value="50-100">50 – 100 ล้านบาท</option>
+            <option value="100+">มากกว่า 100 ล้านบาท</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="note">ข้อความเพิ่มเติม <small>(ไม่บังคับ)</small></label>
+          <textarea id="note" name="note" rows="3"
+                    placeholder="อุตสาหกรรม, ระยะเวลาที่ต้องการ, รายละเอียดอื่นๆ"></textarea>
+        </div>
+
+        <div class="field consent">
+          <label class="checkbox">
+            <input type="checkbox" id="pdpa" name="pdpa" required />
+            <span>ยินยอมให้ Jay Capital เก็บและใช้ข้อมูลส่วนบุคคลเพื่อติดต่อกลับ ตาม
+              <a href="policy.html" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัว</a>
+            </span>
+          </label>
+        </div>
+
+        <div id="error-banner" class="error-banner" hidden></div>
+
+        <button type="submit" id="submit-btn" class="btn-primary">
+          <span class="btn-text">ส่งข้อมูล</span>
+          <span class="btn-loader" hidden></span>
+        </button>
+
+        <p class="footer-note">ทีม RM จะติดต่อกลับภายใน 24 ชั่วโมง</p>
+      </form>
+    </section>
+
+    <!-- Success view -->
+    <section id="success-view" hidden>
+      <div class="success-card">
+        <div class="check-circle">
+          <svg viewBox="0 0 52 52" aria-hidden="true">
+            <circle cx="26" cy="26" r="24" fill="none" stroke="#22c55e" stroke-width="2"/>
+            <path fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round" d="M14 27 L23 36 L39 18"/>
+          </svg>
+        </div>
+        <h2>ขอบคุณ <span id="success-name">ครับ</span> 🙏</h2>
+        <p class="success-msg">เราได้รับข้อมูลของคุณเรียบร้อยแล้ว<br/>
+          ทีม RM ของ Jay Capital จะติดต่อกลับภายใน <strong>24 ชั่วโมง</strong></p>
+        <button type="button" id="close-btn" class="btn-primary">ปิดหน้านี้</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
