@@ -1,5 +1,5 @@
 /* ==========================================================
-   Jay Capital — LINE OA Lead Form (LIFF client)
+   SME Decode — Lead Form (LIFF client)
    ========================================================== */
 
 // ▼▼▼ ตั้งค่า 2 ค่านี้ก่อน deploy ▼▼▼
@@ -9,7 +9,66 @@ const ENDPOINT = "https://script.google.com/macros/s/AKfycbzmAX5vq5XY1_cBQNnzDBR
 
 const $ = (sel) => document.querySelector(sel);
 
-let liffProfile = null; // { userId, displayName }
+let liffProfile = null;
+let currentLang = "th";
+
+// ─── Language toggle ───────────────────────────────────────
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.setAttribute("data-lang", lang);
+
+  // Swap text nodes with data-th / data-en attributes
+  document.querySelectorAll("[data-th][data-en]").forEach((el) => {
+    const val = el.getAttribute("data-" + lang);
+    if (val !== null) el.innerHTML = val;
+  });
+
+  // Swap placeholder on textarea
+  document.querySelectorAll("[data-placeholder-th]").forEach((el) => {
+    el.placeholder = el.getAttribute("data-placeholder-" + lang) || "";
+  });
+
+  // Page title
+  const titleEl = document.querySelector("title");
+  const titleVal = titleEl?.getAttribute("data-" + lang);
+  if (titleEl && titleVal) titleEl.textContent = titleVal;
+
+  // Toggle button active state
+  $("#btn-th")?.classList.toggle("active", lang === "th");
+  $("#btn-en")?.classList.toggle("active", lang === "en");
+}
+
+// ─── Error messages per language ──────────────────────────
+const ERRORS = {
+  th: {
+    name: "กรุณากรอกชื่อ",
+    phone: "เบอร์โทรไม่ถูกต้อง (10 หลัก ขึ้นต้น 0)",
+    email: "อีเมลไม่ถูกต้อง",
+    company: "กรุณากรอกชื่อบริษัท",
+    position: "กรุณากรอกตำแหน่ง",
+    purpose: "กรุณาเลือกวัตถุประสงค์",
+    revenue: "กรุณาเลือกช่วงรายได้",
+    profit: "กรุณาเลือกช่วงกำไร",
+    pdpa: "กรุณายอมรับนโยบายความเป็นส่วนตัว",
+    submitFail: "ส่งข้อมูลไม่สำเร็จ กรุณาลองอีกครั้ง",
+    sending: "กำลังส่ง...",
+    submit: "ส่งข้อมูล",
+  },
+  en: {
+    name: "Please enter your full name",
+    phone: "Invalid phone number (10 digits, starting with 0)",
+    email: "Invalid email address",
+    company: "Please enter your company name",
+    position: "Please enter your position",
+    purpose: "Please select a service",
+    revenue: "Please select a revenue range",
+    profit: "Please select a profit range",
+    pdpa: "Please accept the privacy policy",
+    submitFail: "Submission failed. Please try again.",
+    sending: "Sending...",
+    submit: "Submit",
+  },
+};
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -53,16 +112,17 @@ function bindUI() {
 function validate(payload) {
   const errors = [];
   const mark = (id) => $("#" + id)?.classList.add("invalid");
+  const t = ERRORS[currentLang];
 
-  if (!payload.name.trim()) { errors.push("กรุณากรอกชื่อ"); mark("name"); }
-  if (!/^0[0-9]{8,9}$/.test(payload.phone)) { errors.push("เบอร์โทรไม่ถูกต้อง"); mark("phone"); }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) { errors.push("อีเมลไม่ถูกต้อง"); mark("email"); }
-  if (!payload.company.trim()) { errors.push("กรุณากรอกชื่อบริษัท"); mark("company"); }
-  if (!payload.position.trim()) { errors.push("กรุณากรอกตำแหน่ง"); mark("position"); }
-  if (!payload.purpose) errors.push("กรุณาเลือกวัตถุประสงค์");
-  if (!payload.revenueRange) { errors.push("กรุณาเลือกช่วงรายได้"); mark("revenueRange"); }
-  if (!payload.profitRange) { errors.push("กรุณาเลือกช่วงกำไร"); mark("profitRange"); }
-  if (!payload.pdpa) errors.push("กรุณายอมรับนโยบายความเป็นส่วนตัว");
+  if (!payload.name.trim())                               { errors.push(t.name);     mark("name"); }
+  if (!/^0[0-9]{8,9}$/.test(payload.phone))              { errors.push(t.phone);    mark("phone"); }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) { errors.push(t.email);    mark("email"); }
+  if (!payload.company.trim())                            { errors.push(t.company);  mark("company"); }
+  if (!payload.position.trim())                           { errors.push(t.position); mark("position"); }
+  if (!payload.purpose)                                     errors.push(t.purpose);
+  if (!payload.revenueRange)                              { errors.push(t.revenue);  mark("revenueRange"); }
+  if (!payload.profitRange)                               { errors.push(t.profit);   mark("profitRange"); }
+  if (!payload.pdpa)                                        errors.push(t.pdpa);
 
   return errors;
 }
@@ -107,7 +167,7 @@ async function onSubmit(e) {
   const btnText = btn.querySelector(".btn-text");
   const btnLoader = btn.querySelector(".btn-loader");
   btn.disabled = true;
-  btnText.textContent = "กำลังส่ง...";
+  btnText.textContent = ERRORS[currentLang].sending;
   btnLoader.hidden = false;
 
   try {
@@ -127,10 +187,10 @@ async function onSubmit(e) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   } catch (err) {
     console.error(err);
-    banner.textContent = "ส่งข้อมูลไม่สำเร็จ กรุณาลองอีกครั้ง หรือติดต่อทีมงานโดยตรง";
+    banner.textContent = ERRORS[currentLang].submitFail;
     banner.hidden = false;
     btn.disabled = false;
-    btnText.textContent = "ส่งข้อมูล";
+    btnText.textContent = ERRORS[currentLang].submit;
     btnLoader.hidden = true;
   }
 }

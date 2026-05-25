@@ -1,100 +1,136 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-lang="th">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ลงทะเบียนรับคำปรึกษา | Jay Capital</title>
+  <title data-th="ลงทะเบียนรับคำปรึกษา | SME Decode" data-en="Register for Consultation | SME Decode">ลงทะเบียนรับคำปรึกษา | SME Decode</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-tokens.css" />
   <link rel="stylesheet" href="style.css" />
   <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
   <main class="container">
-    <!-- Form view -->
+
+    <!-- ─── Form view ─── -->
     <section id="form-view">
+
+      <!-- Language Toggle -->
+      <div class="lang-bar">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button id="btn-th" class="active" onclick="setLang('th')">TH</button>
+          <button id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+
+      <!-- Hero -->
       <header class="hero">
-        <div class="logo">JC</div>
-        <h1>ลงทะเบียนรับคำปรึกษา</h1>
-        <p class="sub">Jay Capital — ที่ปรึกษาทางการเงิน (FA)<br/>IPO · M&amp;A · Refinance · Restructuring</p>
+        <div class="logo-wrap">
+          <!-- SME Decode logo mark (magnifier icon) -->
+          <div class="logo-icon">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- magnifier circle -->
+              <circle cx="13" cy="13" r="8.5" stroke="white" stroke-width="2.4"/>
+              <!-- handle -->
+              <line x1="19.5" y1="19.5" x2="27" y2="27" stroke="#e8b84b" stroke-width="2.8" stroke-linecap="round"/>
+              <!-- bar chart inside lens -->
+              <rect x="8"  y="14" width="2" height="4" rx="0.5" fill="white"/>
+              <rect x="11" y="11" width="2" height="7" rx="0.5" fill="#e8b84b"/>
+              <rect x="14" y="12" width="2" height="6" rx="0.5" fill="white"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="sme">SME</span>
+            <span class="decode">DECODE</span>
+          </div>
+        </div>
+        <h1 data-th="ลงทะเบียนรับคำปรึกษา" data-en="Register for Free Consultation">ลงทะเบียนรับคำปรึกษา</h1>
+        <p class="sub" data-th="ที่ปรึกษาทางการเงิน (FA) เชี่ยวชาญด้าน<br/>IPO · M&amp;A · Refinance · Restructuring" data-en="Financial Advisor (FA) specializing in<br/>IPO · M&amp;A · Refinance · Restructuring">ที่ปรึกษาทางการเงิน (FA) เชี่ยวชาญด้าน<br/>IPO · M&amp;A · Refinance · Restructuring</p>
       </header>
 
       <form id="lead-form" novalidate>
+
         <div class="field">
-          <label for="name">ชื่อ–นามสกุล <span class="req">*</span></label>
+          <label for="name"><span data-th="ชื่อ–นามสกุล" data-en="Full Name">ชื่อ–นามสกุล</span> <span class="req">*</span></label>
           <input type="text" id="name" name="name" required autocomplete="name" />
         </div>
 
         <div class="field">
-          <label for="phone">เบอร์โทร <span class="req">*</span></label>
-          <input type="tel" id="phone" name="phone" required autocomplete="tel"
-                 inputmode="numeric" placeholder="0812345678" pattern="^0[0-9]{8,9}$" />
-          <small class="hint">เบอร์มือถือไทย 10 หลัก ขึ้นต้นด้วย 0</small>
+          <label for="phone"><span data-th="เบอร์โทร" data-en="Phone Number">เบอร์โทร</span> <span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" required inputmode="numeric"
+                 placeholder="0812345678" pattern="^0[0-9]{8,9}$" />
+          <small class="hint" data-th="เบอร์มือถือไทย 10 หลัก" data-en="Thai mobile number, 10 digits">เบอร์มือถือไทย 10 หลัก</small>
         </div>
 
         <div class="field">
-          <label for="email">อีเมล <span class="req">*</span></label>
-          <input type="email" id="email" name="email" required autocomplete="email"
-                 placeholder="you@example.com" />
+          <label for="email"><span data-th="อีเมล" data-en="Email">อีเมล</span> <span class="req">*</span></label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com" />
         </div>
 
         <div class="row">
           <div class="field">
-            <label for="company">บริษัท <span class="req">*</span></label>
-            <input type="text" id="company" name="company" required autocomplete="organization" />
+            <label for="company"><span data-th="บริษัท" data-en="Company">บริษัท</span> <span class="req">*</span></label>
+            <input type="text" id="company" name="company" required />
           </div>
           <div class="field">
-            <label for="position">ตำแหน่ง <span class="req">*</span></label>
-            <input type="text" id="position" name="position" required autocomplete="organization-title" />
+            <label for="position"><span data-th="ตำแหน่ง" data-en="Position">ตำแหน่ง</span> <span class="req">*</span></label>
+            <input type="text" id="position" name="position" required />
           </div>
         </div>
 
         <div class="field">
-          <label>วัตถุประสงค์ที่สนใจ <span class="req">*</span></label>
+          <label><span data-th="วัตถุประสงค์ที่สนใจ" data-en="Service Interest">วัตถุประสงค์ที่สนใจ</span> <span class="req">*</span></label>
           <div class="radio-group" role="radiogroup">
             <label class="radio"><input type="radio" name="purpose" value="IPO" required /><span>IPO</span></label>
             <label class="radio"><input type="radio" name="purpose" value="M&A" /><span>M&amp;A</span></label>
             <label class="radio"><input type="radio" name="purpose" value="Refinance" /><span>Refinance</span></label>
             <label class="radio"><input type="radio" name="purpose" value="Restructuring" /><span>Restructuring</span></label>
-            <label class="radio"><input type="radio" name="purpose" value="อื่นๆ" /><span>อื่นๆ</span></label>
+            <label class="radio"><input type="radio" name="purpose" value="อื่นๆ" /><span data-th="อื่นๆ" data-en="Other">อื่นๆ</span></label>
           </div>
         </div>
 
         <div class="field">
-          <label for="revenueRange">ช่วงรายได้ปีล่าสุด <span class="req">*</span></label>
+          <label for="revenueRange"><span data-th="ช่วงรายได้ปีล่าสุด" data-en="Latest Annual Revenue">ช่วงรายได้ปีล่าสุด</span> <span class="req">*</span></label>
           <select id="revenueRange" name="revenueRange" required>
-            <option value="">— เลือก —</option>
-            <option value="<100">น้อยกว่า 100 ล้านบาท</option>
-            <option value="100-500">100 – 500 ล้านบาท</option>
-            <option value="500-1000">500 – 1,000 ล้านบาท</option>
-            <option value="1000+">มากกว่า 1,000 ล้านบาท</option>
+            <option value="" data-th="— เลือก —" data-en="— Select —">— เลือก —</option>
+            <option value="<100"    data-th="น้อยกว่า 100 ล้านบาท"   data-en="Less than 100M THB">น้อยกว่า 100 ล้านบาท</option>
+            <option value="100-500" data-th="100 – 500 ล้านบาท"      data-en="100 – 500M THB">100 – 500 ล้านบาท</option>
+            <option value="500-1000" data-th="500 – 1,000 ล้านบาท"   data-en="500 – 1,000M THB">500 – 1,000 ล้านบาท</option>
+            <option value="1000+"   data-th="มากกว่า 1,000 ล้านบาท"  data-en="Over 1,000M THB">มากกว่า 1,000 ล้านบาท</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="profitRange">ช่วงกำไรปีล่าสุด <span class="req">*</span></label>
+          <label for="profitRange"><span data-th="ช่วงกำไรปีล่าสุด" data-en="Latest Annual Profit">ช่วงกำไรปีล่าสุด</span> <span class="req">*</span></label>
           <select id="profitRange" name="profitRange" required>
-            <option value="">— เลือก —</option>
-            <option value="loss">ขาดทุน</option>
-            <option value="<10">น้อยกว่า 10 ล้านบาท</option>
-            <option value="10-50">10 – 50 ล้านบาท</option>
-            <option value="50-100">50 – 100 ล้านบาท</option>
-            <option value="100+">มากกว่า 100 ล้านบาท</option>
+            <option value="" data-th="— เลือก —" data-en="— Select —">— เลือก —</option>
+            <option value="loss"  data-th="ขาดทุน"              data-en="Net Loss">ขาดทุน</option>
+            <option value="<10"   data-th="น้อยกว่า 10 ล้านบาท" data-en="Less than 10M THB">น้อยกว่า 10 ล้านบาท</option>
+            <option value="10-50" data-th="10 – 50 ล้านบาท"     data-en="10 – 50M THB">10 – 50 ล้านบาท</option>
+            <option value="50-100" data-th="50 – 100 ล้านบาท"   data-en="50 – 100M THB">50 – 100 ล้านบาท</option>
+            <option value="100+"  data-th="มากกว่า 100 ล้านบาท" data-en="Over 100M THB">มากกว่า 100 ล้านบาท</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="note">ข้อความเพิ่มเติม <small>(ไม่บังคับ)</small></label>
+          <label for="note">
+            <span data-th="ข้อความเพิ่มเติม" data-en="Additional Info">ข้อความเพิ่มเติม</span>
+            <small data-th="(ไม่บังคับ)" data-en="(optional)">(ไม่บังคับ)</small>
+          </label>
           <textarea id="note" name="note" rows="3"
-                    placeholder="อุตสาหกรรม, ระยะเวลาที่ต้องการ, รายละเอียดอื่นๆ"></textarea>
+            data-placeholder-th="อุตสาหกรรม, ระยะเวลาที่ต้องการ, รายละเอียดอื่นๆ"
+            data-placeholder-en="Industry, timeline, additional details"
+            placeholder="อุตสาหกรรม, ระยะเวลาที่ต้องการ, รายละเอียดอื่นๆ"></textarea>
         </div>
 
         <div class="field consent">
           <label class="checkbox">
             <input type="checkbox" id="pdpa" name="pdpa" required />
-            <span>ยินยอมให้ Jay Capital เก็บและใช้ข้อมูลส่วนบุคคลเพื่อติดต่อกลับ ตาม
-              <a href="policy.html" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัว</a>
+            <span>
+              <span data-th="ยินยอมให้ SME Decode เก็บและใช้ข้อมูลส่วนบุคคลเพื่อติดต่อกลับ ตาม" data-en="I consent to SME Decode collecting and using my personal data as per">ยินยอมให้ SME Decode เก็บและใช้ข้อมูลส่วนบุคคลเพื่อติดต่อกลับ ตาม</span>
+              <a href="policy.html" target="_blank" rel="noopener" data-th="นโยบายความเป็นส่วนตัว" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</a>
             </span>
           </label>
         </div>
@@ -102,30 +138,37 @@
         <div id="error-banner" class="error-banner" hidden></div>
 
         <button type="submit" id="submit-btn" class="btn-primary">
-          <span class="btn-text">ส่งข้อมูล</span>
+          <span class="btn-text" data-th="ส่งข้อมูล" data-en="Submit">ส่งข้อมูล</span>
           <span class="btn-loader" hidden></span>
         </button>
 
-        <p class="footer-note">ทีม RM จะติดต่อกลับภายใน 24 ชั่วโมง</p>
+        <p class="footer-note" data-th="ทีม FA จะติดต่อกลับภายใน 24 ชั่วโมง" data-en="Our FA team will contact you within 24 hours">ทีม FA จะติดต่อกลับภายใน 24 ชั่วโมง</p>
       </form>
     </section>
 
-    <!-- Success view -->
+    <!-- ─── Success view ─── -->
     <section id="success-view" hidden>
       <div class="success-card">
         <div class="check-circle">
           <svg viewBox="0 0 52 52" aria-hidden="true">
-            <circle cx="26" cy="26" r="24" fill="none" stroke="#22c55e" stroke-width="2"/>
-            <path fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round"
+            <circle cx="26" cy="26" r="24" fill="none" stroke="#16b899" stroke-width="2"/>
+            <path fill="none" stroke="#16b899" stroke-width="4" stroke-linecap="round"
                   stroke-linejoin="round" d="M14 27 L23 36 L39 18"/>
           </svg>
         </div>
-        <h2>ขอบคุณ <span id="success-name">ครับ</span> 🙏</h2>
-        <p class="success-msg">เราได้รับข้อมูลของคุณเรียบร้อยแล้ว<br/>
-          ทีม RM ของ Jay Capital จะติดต่อกลับภายใน <strong>24 ชั่วโมง</strong></p>
-        <button type="button" id="close-btn" class="btn-primary">ปิดหน้านี้</button>
+        <h2 data-th-template="ขอบคุณ {name} 🙏" data-en-template="Thank you, {name} 🙏">
+          ขอบคุณ <span id="success-name"></span> 🙏
+        </h2>
+        <p class="success-msg">
+          <span data-th="เราได้รับข้อมูลของคุณเรียบร้อยแล้ว" data-en="We've received your information.">เราได้รับข้อมูลของคุณเรียบร้อยแล้ว</span><br/>
+          <span data-th="ทีม FA ของ SME Decode จะติดต่อกลับภายใน" data-en="Our FA team will contact you within">ทีม FA ของ SME Decode จะติดต่อกลับภายใน</span>
+          <strong data-th="24 ชั่วโมง" data-en="24 hours">24 ชั่วโมง</strong>
+        </p>
+        <button type="button" id="close-btn" class="btn-primary"
+                data-th="ปิดหน้านี้" data-en="Close">ปิดหน้านี้</button>
       </div>
     </section>
+
   </main>
 
   <script src="script.js"></script>
