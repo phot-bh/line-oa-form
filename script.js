@@ -3,8 +3,8 @@
    ========================================================== */
 
 // ▼▼▼ ตั้งค่า 2 ค่านี้ก่อน deploy ▼▼▼
-const LIFF_ID = "YOUR_LIFF_ID";                              // จาก LINE Developers Console
-const ENDPOINT = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec"; // Apps Script Web App URL
+const LIFF_ID = "2010190214-q9gj5n1x";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzmAX5vq5XY1_cBQNnzDBR3DFN475cDjMIU2RKfZpmHHhfoG91GZk_BK1RcsfvCobUF/exec";
 // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
 const $ = (sel) => document.querySelector(sel);
