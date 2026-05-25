@@ -64,50 +64,22 @@ html, body {
   padding: var(--space-6) var(--space-4) var(--space-5);
 }
 
-.logo-wrap {
+.logo-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-
-.logo-icon {
-  width: 52px;
-  height: 52px;
+  margin: 0 auto var(--space-4);
+  width: 168px;
+  height: 140px;
   border-radius: var(--radius-lg);
   background: linear-gradient(135deg, #14c9a1 0%, #0e9e84 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(22, 184, 153, 0.30);
-  flex-shrink: 0;
+  box-shadow: 0 6px 22px rgba(22, 184, 153, 0.28);
 }
 
-.logo-icon svg {
-  width: 30px;
-  height: 30px;
-}
-
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  line-height: 1.1;
-}
-
-.logo-text .sme {
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  color: var(--brand-navy);
-  letter-spacing: -0.3px;
-}
-
-.logo-text .decode {
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  color: var(--brand-primary);
-  letter-spacing: -0.3px;
+.logo-svg {
+  width: 88%;
+  height: 88%;
+  display: block;
 }
 
 .hero h1 {
