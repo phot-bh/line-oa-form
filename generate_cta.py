@@ -1,18 +1,18 @@
-"""Generate Rich Message CTA image for JC Lead Form (1040x520 px)."""
+"""Generate Rich Message CTA image for SME Decode Lead Form (1040x520 px)."""
 from PIL import Image, ImageDraw, ImageFont
 import os
 
 # Canvas
 W, H = 1040, 520
-img = Image.new("RGB", (W, H), (11, 37, 69))  # JC navy
+img = Image.new("RGB", (W, H), (13, 31, 60))  # SME Decode navy
 draw = ImageDraw.Draw(img)
 
-# Vertical gradient navy -> deeper navy
+# Vertical gradient navy -> deep teal-navy
 for y in range(H):
     t = y / H
-    r = int(11 + (19 - 11) * t)
-    g = int(37 + (49 - 37) * t)
-    b = int(69 + (92 - 69) * t)
+    r = int(13 + (8 - 13) * t)
+    g = int(31 + (60 - 31) * t)
+    b = int(60 + (78 - 60) * t)
     draw.line([(0, y), (W, y)], fill=(r, g, b))
 
 # Find Thai-capable font
@@ -31,14 +31,15 @@ def find_font(size, bold=False):
                 pass
     return ImageFont.load_default()
 
-f_logo = find_font(48, bold=True)
+f_logo = find_font(30, bold=True)
 f_h1 = find_font(64, bold=True)
 f_h2 = find_font(28, bold=False)
 f_btn = find_font(36, bold=True)
 f_sub = find_font(22, bold=False)
 
-GOLD = (199, 147, 56)
-GOLD_LIGHT = (232, 198, 106)
+TEAL = (22, 184, 153)
+GOLD = (232, 184, 75)
+GOLD_LIGHT = (245, 216, 138)
 WHITE = (255, 255, 255)
 SOFT = (200, 210, 230)
 
@@ -46,19 +47,19 @@ SOFT = (200, 210, 230)
 badge_x, badge_y, badge_size = 56, 56, 78
 draw.rounded_rectangle(
     [badge_x, badge_y, badge_x + badge_size, badge_y + badge_size],
-    radius=18, fill=(255, 255, 255, 0), outline=GOLD, width=3,
+    radius=18, fill=TEAL,
 )
-# Logo text "JC" centered in badge
-logo_text = "JC"
+# Logo text "SME" centered in badge
+logo_text = "SME"
 bbox = draw.textbbox((0, 0), logo_text, font=f_logo)
 tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
 draw.text(
     (badge_x + (badge_size - tw) / 2 - bbox[0], badge_y + (badge_size - th) / 2 - bbox[1] - 4),
-    logo_text, font=f_logo, fill=GOLD_LIGHT,
+    logo_text, font=f_logo, fill=WHITE,
 )
 
-# "Jay Capital" wordmark next to badge
-draw.text((badge_x + badge_size + 18, badge_y + 8), "JAY CAPITAL",
+# "SME Decode" wordmark next to badge
+draw.text((badge_x + badge_size + 18, badge_y + 8), "SME DECODE",
           font=f_h2, fill=GOLD_LIGHT)
 draw.text((badge_x + badge_size + 18, badge_y + 44), "Financial Advisor",
           font=f_sub, fill=SOFT)
@@ -72,21 +73,21 @@ draw.text((56, 270), "IPO  •  M&A  •  Refinance  •  Restructuring",
           font=f_h2, fill=GOLD_LIGHT)
 
 # Footer note
-draw.text((56, 318), "ทีม RM ติดต่อกลับภายใน 24 ชั่วโมง",
+draw.text((56, 318), "ทีม FA ติดต่อกลับภายใน 24 ชั่วโมง",
           font=f_sub, fill=SOFT)
 
 # CTA pill button (bottom-left)
 btn_x, btn_y, btn_w, btn_h = 56, 400, 420, 78
 draw.rounded_rectangle(
     [btn_x, btn_y, btn_x + btn_w, btn_y + btn_h],
-    radius=39, fill=GOLD,
+    radius=39, fill=TEAL,
 )
 btn_text = "เริ่มกรอกข้อมูล  →"
 bbox = draw.textbbox((0, 0), btn_text, font=f_btn)
 tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
 draw.text(
     (btn_x + (btn_w - tw) / 2 - bbox[0], btn_y + (btn_h - th) / 2 - bbox[1] - 6),
-    btn_text, font=f_btn, fill=(11, 37, 69),
+    btn_text, font=f_btn, fill=WHITE,
 )
 
 # Decorative diagonal stripe (subtle) bottom-right
@@ -94,7 +95,7 @@ for i in range(8):
     offset = i * 24
     draw.line(
         [(W - 320 + offset, H), (W, H - 320 + offset)],
-        fill=(199, 147, 56, 30), width=2,
+        fill=(22, 184, 153), width=2,
     )
 
 out_path = os.path.join(os.path.dirname(__file__), "cta_richmessage.jpg")

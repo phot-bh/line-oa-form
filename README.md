@@ -1,4 +1,4 @@
-# JC LINE OA Lead Form — Setup Guide
+# SME Decode LINE OA Lead Form — Setup Guide
 
 ฟอร์มเก็บ lead ลูกค้า FA (IPO / M&A / Refi / Restructuring) ผ่าน LINE OA + LIFF
 
@@ -11,7 +11,7 @@
 | File | Purpose |
 |---|---|
 | `index.html` | LIFF form (UI) |
-| `style.css` | Styles (mobile-first, JC navy/gold) |
+| `style.css` | Styles (mobile-first, SME Decode teal/navy) |
 | `script.js` | LIFF SDK init + form submit |
 | `policy.html` | PDPA policy page |
 | `Code.gs` | Google Apps Script backend |
@@ -22,7 +22,7 @@
 ## Setup (one-time, ~30 นาที)
 
 ### 1) Google Sheet
-1. สร้าง Google Sheet ใหม่ → ตั้งชื่อ `JC Leads`
+1. สร้าง Google Sheet ใหม่ → ตั้งชื่อ `SME Decode Leads`
 2. Copy **Sheet ID** จาก URL: `docs.google.com/spreadsheets/d/`**`<SHEET_ID>`**`/edit`
 
 ### 2) Google Apps Script
@@ -43,9 +43,9 @@
 
 ### 3) LINE Developers Console
 1. ไป https://developers.line.biz → ล็อกอินด้วย LINE account ที่เป็นแอดมิน OA
-2. **Create a new provider** (ถ้ายังไม่มี) — ชื่ออะไรก็ได้ เช่น "Jay Capital"
+2. **Create a new provider** (ถ้ายังไม่มี) — ชื่ออะไรก็ได้ เช่น "SME Decode"
 3. ใน Provider → **Create channel → Messaging API**
-   - ผูกกับ LINE OA ที่มีอยู่ของ JC
+   - ผูกกับ LINE OA ที่มีอยู่ของ SME Decode
    - Channel name / description กรอกตามจริง
 4. ใน Messaging API channel:
    - แท็บ **Messaging API** → **Channel access token (long-lived)** → **Issue** → copy ค่ามาใส่ Script Properties `LINE_CHANNEL_ACCESS_TOKEN`
@@ -55,7 +55,7 @@
 ### 4) LIFF App
 1. ใน Provider (เดิม) → **Create channel → LINE Login** (ถ้ายังไม่มี) — หรือใช้ Messaging API channel ที่สร้างไปก็ได้ (แท็บ LIFF)
 2. แท็บ **LIFF → Add**
-   - LIFF app name: `JC Lead Form`
+   - LIFF app name: `SME Decode Lead Form`
    - Size: **Tall**
    - Endpoint URL: `https://<your-github-username>.github.io/line-oa-form/` (ดูขั้นตอน 6)
    - Scope: ติ๊ก **profile**, **openid**
@@ -77,11 +77,11 @@
 5. กลับไปอัพเดต LIFF Endpoint URL ใน LINE Developers (ขั้นตอน 4.2) ให้ตรงกัน
 
 ### 7) Greeting Message ใน LINE OA Manager
-1. ไป https://manager.line.biz → เลือก OA ของ JC
+1. ไป https://manager.line.biz → เลือก OA ของ SME Decode
 2. **Home → Greeting message** → เปิดใช้งาน
 3. ตั้งข้อความ เช่น:
    ```
-   สวัสดีครับ 👋 ขอบคุณที่เพิ่ม Jay Capital เป็นเพื่อน
+   สวัสดีครับ 👋 ขอบคุณที่เพิ่ม SME Decode เป็นเพื่อน
 
    เราเป็นที่ปรึกษาทางการเงิน (FA) เชี่ยวชาญด้าน
    IPO · M&A · Refinance · Restructuring
@@ -89,7 +89,7 @@
    📋 ลงทะเบียนรับคำปรึกษาฟรี:
    https://liff.line.me/<your-liff-id>
 
-   ทีม RM จะติดต่อกลับภายใน 24 ชั่วโมง
+   ทีม FA จะติดต่อกลับภายใน 24 ชั่วโมง
    ```
 
 ### 8) Test End-to-End

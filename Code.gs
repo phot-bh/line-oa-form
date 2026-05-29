@@ -1,5 +1,5 @@
 /**
- * Jay Capital — LINE OA Lead Form (Backend)
+ * SME Decode — LINE OA Lead Form (Backend)
  * Google Apps Script Web App
  *
  * รับ POST จาก LIFF form → บันทึก Sheet → ส่ง Email + LINE push ไปแอดมิน
@@ -47,7 +47,7 @@ function doPost(e) {
 }
 
 function doGet() {
-  return jsonResponse({ ok: true, service: 'JC Lead Form', time: new Date().toISOString() });
+  return jsonResponse({ ok: true, service: 'SME Decode Lead Form', time: new Date().toISOString() });
 }
 
 function jsonResponse(obj) {
@@ -112,7 +112,7 @@ function emailAdmins(d) {
   const subject = `🔔 Lead ใหม่: ${d.name} (${d.purpose})`;
   const body = [
     '<div style="font-family:Sarabun,Arial,sans-serif;font-size:14px;color:#1a2233">',
-    '<h2 style="color:#0b2545;margin:0 0 12px">🔔 Lead ใหม่จาก LINE OA</h2>',
+    '<h2 style="color:#0d1f3c;margin:0 0 12px">🔔 Lead ใหม่จาก LINE OA</h2>',
     '<table cellpadding="6" style="border-collapse:collapse">',
     row('ชื่อ', d.name),
     row('เบอร์', `<a href="tel:${d.phone}">${d.phone}</a>`),
@@ -125,7 +125,7 @@ function emailAdmins(d) {
     row('ที่มา', d.source),
     row('LINE userId', d.lineUserId || '-'),
     '</table>',
-    `<p style="margin-top:16px"><a href="${sheetUrl}" style="background:#0b2545;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none">เปิด Google Sheet</a></p>`,
+    `<p style="margin-top:16px"><a href="${sheetUrl}" style="background:#0d1f3c;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none">เปิด Google Sheet</a></p>`,
     '</div>'
   ].join('');
 
@@ -203,7 +203,7 @@ function testNotify() {
     name: 'ทดสอบ ระบบ',
     phone: '0812345678',
     email: 'test@example.com',
-    company: 'JC Test Co., Ltd.',
+    company: 'SME Decode Test Co., Ltd.',
     position: 'CFO',
     purpose: 'IPO',
     revenueRange: '500-1000',

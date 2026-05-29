@@ -19,9 +19,10 @@
 
       <!-- Language Toggle -->
       <div class="lang-bar">
-        <div class="lang-toggle" role="group" aria-label="Language">
-          <button id="btn-th" class="active" onclick="setLang('th')">TH</button>
-          <button id="btn-en" onclick="setLang('en')">EN</button>
+        <div class="lang-switch" id="lang-switch" data-active="th" role="group" aria-label="Language">
+          <button type="button" class="lang-option" data-lang="th">TH</button>
+          <button type="button" class="lang-option" data-lang="en">EN</button>
+          <span class="lang-slider" aria-hidden="true"></span>
         </div>
       </div>
 
@@ -31,8 +32,8 @@
           <svg class="logo-svg" viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" aria-label="SME Decode">
             <!-- SME — navy, with subtle glitch-shadow on the E -->
             <g font-family="Inter, 'Noto Sans Thai', sans-serif" font-weight="800" letter-spacing="1">
-              <text x="120" y="74" text-anchor="middle" font-size="56" fill="#0d1f3c">SME</text>
-              <text x="156" y="74" text-anchor="middle" font-size="56" fill="#e8b84b" opacity="0.45">E</text>
+              <text x="120" y="74" text-anchor="middle" font-size="56" fill="#ffffff">SME</text>
+              <text x="156" y="74" text-anchor="middle" font-size="56" fill="#e8b84b" opacity="0.55">E</text>
             </g>
             <!-- DECODE — white, with magnifier replacing the O -->
             <g font-family="Inter, 'Noto Sans Thai', sans-serif" font-weight="800" letter-spacing="1">

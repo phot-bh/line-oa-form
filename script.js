@@ -33,9 +33,9 @@ function setLang(lang) {
   const titleVal = titleEl?.getAttribute("data-" + lang);
   if (titleEl && titleVal) titleEl.textContent = titleVal;
 
-  // Toggle button active state
-  $("#btn-th")?.classList.toggle("active", lang === "th");
-  $("#btn-en")?.classList.toggle("active", lang === "en");
+  // Toggle slider position
+  const sw = $("#lang-switch");
+  if (sw) sw.setAttribute("data-active", lang);
 }
 
 // ─── Error messages per language ──────────────────────────
@@ -77,7 +77,10 @@ async function init() {
   try {
     await liff.init({ liffId: LIFF_ID });
     if (!liff.isLoggedIn()) {
-      liff.login();
+      // Only auto-login inside the LINE app. In an external browser, liff.login()
+      // does an OAuth redirect that returns "400 Bad Request" when redirect_uri
+      // doesn't exactly match the registered LIFF Endpoint URL.
+      if (liff.isInClient()) liff.login();
       return;
     }
     liffProfile = await liff.getProfile();
@@ -92,6 +95,10 @@ async function init() {
 }
 
 function bindUI() {
+  document.querySelectorAll(".lang-switch .lang-option").forEach((btn) => {
+    btn.addEventListener("click", () => setLang(btn.dataset.lang));
+  });
+
   $("#lead-form").addEventListener("submit", onSubmit);
   $("#close-btn").addEventListener("click", () => {
     try { liff.closeWindow(); } catch (_) { window.close(); }

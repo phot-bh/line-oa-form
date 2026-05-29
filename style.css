@@ -31,31 +31,52 @@ html, body {
   padding: var(--space-3) 0 0;
 }
 
-.lang-toggle {
-  display: flex;
-  gap: 2px;
+.lang-switch {
+  position: relative;
+  display: inline-flex;
   background: var(--neutral-100);
   border-radius: var(--radius-full);
   padding: 3px;
+  width: 96px;
+  user-select: none;
 }
 
-.lang-toggle button {
-  padding: 4px 14px;
+.lang-switch .lang-option {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 6px 0;
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  font-family: var(--font-sans);
+  color: var(--color-text-soft);
+  background: transparent;
   border: none;
   border-radius: var(--radius-full);
-  background: transparent;
-  color: var(--color-text-soft);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
-.lang-toggle button.active {
-  background: var(--white);
+.lang-switch[data-active="th"] .lang-option[data-lang="th"],
+.lang-switch[data-active="en"] .lang-option[data-lang="en"] {
   color: var(--brand-primary);
+}
+
+.lang-switch .lang-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  background: var(--white);
+  border-radius: var(--radius-full);
   box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base);
+  z-index: 1;
+}
+
+.lang-switch[data-active="en"] .lang-slider {
+  transform: translateX(100%);
 }
 
 /* ---------- Hero ---------- */
@@ -72,8 +93,8 @@ html, body {
   width: 168px;
   height: 140px;
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, #14c9a1 0%, #0e9e84 100%);
-  box-shadow: 0 6px 22px rgba(22, 184, 153, 0.28);
+  background: linear-gradient(135deg, #0e9e84 0%, #0a7561 100%);
+  box-shadow: 0 6px 22px rgba(10, 117, 97, 0.35);
 }
 
 .logo-svg {
