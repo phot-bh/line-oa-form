@@ -65,7 +65,7 @@ draw.text((badge_x + badge_size + 18, badge_y + 44), "Financial Advisor",
           font=f_sub, fill=SOFT)
 
 # Headline
-draw.text((56, 180), "ลงทะเบียนรับคำปรึกษาฟรี",
+draw.text((56, 180), "ลงทะเบียนรับคำปรึกษา",
           font=f_h1, fill=WHITE)
 
 # Subheadline (services)
