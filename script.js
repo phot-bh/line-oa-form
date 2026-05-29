@@ -47,6 +47,7 @@ const ERRORS = {
     company: "กรุณากรอกชื่อบริษัท",
     position: "กรุณากรอกตำแหน่ง",
     purpose: "กรุณาเลือกวัตถุประสงค์",
+    purposeOther: "กรุณาระบุวัตถุประสงค์ที่ต้องการ",
     revenue: "กรุณาเลือกช่วงรายได้",
     profit: "กรุณาเลือกช่วงกำไร",
     pdpa: "กรุณายอมรับนโยบายความเป็นส่วนตัว",
@@ -61,6 +62,7 @@ const ERRORS = {
     company: "Please enter your company name",
     position: "Please enter your position",
     purpose: "Please select a service",
+    purposeOther: "Please specify your purpose",
     revenue: "Please select a revenue range",
     profit: "Please select a profit range",
     pdpa: "Please accept the privacy policy",
@@ -109,6 +111,17 @@ function bindUI() {
     e.target.value = e.target.value.replace(/[^\d]/g, "").slice(0, 10);
   });
 
+  // Show/hide "specify purpose" field when "อื่นๆ" is selected
+  const otherWrap = $("#purpose-other-wrap");
+  const otherInput = $("#purposeOther");
+  document.querySelectorAll('input[name="purpose"]').forEach((r) => {
+    r.addEventListener("change", () => {
+      const isOther = r.checked && r.value === "อื่นๆ";
+      otherWrap.hidden = !isOther;
+      if (!isOther) otherInput.value = "";
+    });
+  });
+
   // Clear invalid state on edit
   document.querySelectorAll("input, select, textarea").forEach((el) => {
     el.addEventListener("input", () => el.classList.remove("invalid"));
@@ -127,6 +140,7 @@ function validate(payload) {
   if (!payload.company.trim())                            { errors.push(t.company);  mark("company"); }
   if (!payload.position.trim())                           { errors.push(t.position); mark("position"); }
   if (!payload.purpose)                                     errors.push(t.purpose);
+  if (payload.purpose === "อื่นๆ" && !payload.purposeOther.trim()) { errors.push(t.purposeOther); mark("purposeOther"); }
   if (!payload.revenueRange)                              { errors.push(t.revenue);  mark("revenueRange"); }
   if (!payload.profitRange)                               { errors.push(t.profit);   mark("profitRange"); }
   if (!payload.pdpa)                                        errors.push(t.pdpa);
@@ -152,6 +166,7 @@ async function onSubmit(e) {
     company: (formData.get("company") || "").trim(),
     position: (formData.get("position") || "").trim(),
     purpose: formData.get("purpose") || "",
+    purposeOther: (formData.get("purposeOther") || "").trim(),
     revenueRange: formData.get("revenueRange") || "",
     profitRange: formData.get("profitRange") || "",
     note: (formData.get("note") || "").trim(),
@@ -168,6 +183,12 @@ async function onSubmit(e) {
     banner.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
+
+  // Merge "specify purpose" text into the purpose field so the backend column stays single-valued
+  if (payload.purpose === "อื่นๆ" && payload.purposeOther) {
+    payload.purpose = `อื่นๆ: ${payload.purposeOther}`;
+  }
+  delete payload.purposeOther;
 
   // Submit
   const btn = $("#submit-btn");
