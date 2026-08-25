@@ -4,7 +4,7 @@
 
 // ▼▼▼ ตั้งค่า 2 ค่านี้ก่อน deploy ▼▼▼
 const LIFF_ID = "2010190214-q9gj5n1x";
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbzmAX5vq5XY1_cBQNnzDBR3DFN475cDjMIU2RKfZpmHHhfoG91GZk_BK1RcsfvCobUF/exec";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwktYY9VQke-P_m0_J1fi7VbNxPs_M-BUd032ruIZ1OF8SAB-AtubHii1sZsauAkMCVAQ/exec";
 // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
 const $ = (sel) => document.querySelector(sel);

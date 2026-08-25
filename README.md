@@ -25,8 +25,12 @@
 1. สร้าง Google Sheet ใหม่ → ตั้งชื่อ `SME Decode Leads`
 2. Copy **Sheet ID** จาก URL: `docs.google.com/spreadsheets/d/`**`<SHEET_ID>`**`/edit`
 
-### 2) Google Apps Script
-1. ใน Sheet → **Extensions → Apps Script**
+### 2) Google Apps Script (standalone)
+> ⚠️ **ต้องเป็น standalone project เท่านั้น** — ห้ามสร้างจากใน Sheet (Extensions → Apps Script)
+> เพราะสคริปต์แบบ container-bound จะถูกลบตาม Sheet ไปด้วย ทำให้ Web App URL ตาย 410
+> (เคยเกิดแล้ว ส.ค. 2026: Sheet ถูกลบ → backend + Script Properties หายทั้งชุด)
+
+1. ไป https://script.google.com → **New project** (ด้วยบัญชีเดียวกับที่เป็นเจ้าของ Sheet)
 2. ลบโค้ดเดิม → paste เนื้อหาจาก `Code.gs`
 3. **Project Settings (⚙️) → Script Properties → Add property:**
    | Property | Value |

@@ -1,8 +1,12 @@
 /**
  * SME Decode — LINE OA Lead Form (Backend)
- * Google Apps Script Web App
+ * Google Apps Script Web App (STANDALONE — สร้างจาก script.google.com ตรงๆ)
  *
  * รับ POST จาก LIFF form → บันทึก Sheet → ส่ง Email + LINE push ไปแอดมิน
+ *
+ * ⚠️ อย่าสร้างแบบ container-bound (Extensions → Apps Script จากใน Sheet)
+ *    เพราะถ้า Sheet ถูกลบ สคริปต์+deployment URL จะตายตามไปด้วย (เกิดมาแล้ว ส.ค. 2026)
+ *    ให้สร้าง standalone project แล้วชี้ Sheet ผ่าน Script Property SHEET_ID เท่านั้น
  *
  * Deploy: Deploy → New deployment → type: Web app
  *   - Execute as: Me (your account)
@@ -12,7 +16,7 @@
  *   LINE_CHANNEL_ACCESS_TOKEN  = (จาก Messaging API channel)
  *   ADMIN_LINE_USER_IDS        = "Uxxx,Uyyy,Uzzz" (comma-separated)
  *   ADMIN_EMAILS               = "admin1@jc.co.th,admin2@jc.co.th"
- *   SHEET_ID                   = (Google Sheet ID จาก URL)
+ *   SHEET_ID                   = (Google Sheet ID จาก URL) — จำเป็น (standalone ไม่มี active spreadsheet)
  */
 
 const SHEET_NAME = 'Leads';
@@ -75,9 +79,14 @@ function validate(d) {
 
 // ----------- Sheet -----------
 
-function getSheet() {
+function getSpreadsheet_() {
   const sheetId = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
-  const ss = sheetId ? SpreadsheetApp.openById(sheetId) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!sheetId) throw new Error('SHEET_ID script property is not set (Project Settings → Script Properties)');
+  return SpreadsheetApp.openById(sheetId);
+}
+
+function getSheet() {
+  const ss = getSpreadsheet_();
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
@@ -108,7 +117,7 @@ function emailAdmins(d) {
   const recipients = emails.split(',').map(s => s.trim()).filter(Boolean);
   if (!recipients.length) return;
 
-  const sheetUrl = SpreadsheetApp.getActiveSpreadsheet().getUrl();
+  const sheetUrl = getSpreadsheet_().getUrl();
   const subject = `🔔 Lead ใหม่: ${d.name} (${d.purpose})`;
   const body = [
     '<div style="font-family:Sarabun,Arial,sans-serif;font-size:14px;color:#1a2233">',
@@ -182,6 +191,30 @@ function pushLineAdmins(d) {
 }
 
 // ----------- One-time setup helper -----------
+
+/**
+ * รันครั้งเดียวหลัง deploy ครั้งแรก (Run → bootstrap)
+ * - ถ้ายังไม่มี SHEET_ID: สร้าง Google Sheet ใหม่ให้เอง + เซ็ต property + แชร์ให้ทีม
+ * - เซ็ต ADMIN_EMAILS เริ่มต้นถ้ายังว่าง
+ * - สร้างแท็บ Leads + header
+ */
+function bootstrap() {
+  const props = PropertiesService.getScriptProperties();
+  let sheetId = props.getProperty('SHEET_ID');
+  if (!sheetId) {
+    const ss = SpreadsheetApp.create('SME Decode Leads');
+    sheetId = ss.getId();
+    props.setProperty('SHEET_ID', sheetId);
+    try {
+      DriveApp.getFileById(sheetId).addEditor('user01@jaycapital.co.th');
+    } catch (err) { console.error('share failed', err); }
+  }
+  if (!props.getProperty('ADMIN_EMAILS')) {
+    props.setProperty('ADMIN_EMAILS', 'user01@jaycapital.co.th');
+  }
+  setupSheet();
+  Logger.log('Sheet: https://docs.google.com/spreadsheets/d/' + sheetId + '/edit');
+}
 
 /**
  * รันครั้งเดียวเพื่อ initialize header ของ sheet
